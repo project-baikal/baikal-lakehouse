@@ -11,7 +11,7 @@ PREFIX = "poc_data/bronze/country/"
 COUNTRIES = ["canada", "mexico", "china", "japan", "costa"]
 
 @asset
-def country_data_to_s3() -> Output[list]:
+def country_data_to_s3():
     results = []
     for country in COUNTRIES:
         url = f"https://restcountries.com/v3.1/name/{country}"
@@ -28,10 +28,4 @@ def country_data_to_s3() -> Output[list]:
         )
         results.append({"country": country, "s3_key": key})
 
-    return Output(
-        value=results,
-        metadata={
-            "countries_fetched": len(results),
-            "s3_prefix": MetadataValue.path(f"s3://{BUCKET_NAME}/{PREFIX}"),
-        }
-    )
+    return results
